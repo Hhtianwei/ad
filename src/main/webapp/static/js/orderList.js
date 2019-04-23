@@ -26,12 +26,30 @@ $(function(){
             [
                 { field: 'createTimeString', title: '创建时间', sortable: true, align: 'left', width: 120 },
                 { field: 'name', title: '名称', sortable: true, align: 'left', width: 160 },
-                { field: 'totalPriceString', title: '订单金额', sortable: true, align: 'left', width: 160 }
+                { field: 'totalPriceString', title: '订单金额', sortable: true, align: 'left', width: 160 },
+                { field: 'action', title: '操作', sortable: true, align: 'left', width: 210,formatter:function (value,row,index) {
+                            var s = '<a href="#" onclick="showDetail('+row.id+')">查看</a> ';
+                            var c = '<a href="#" onclick="downloadOrder('+row.id+')">下载</a>';
+                            return s+c;
+                    }}
             ]
         ]
     });
 
 });
+
+function showDetail(id){
+
+}
+
+function downloadOrder(id){
+    window.location.href='/order/download/'+ id;
+}
+
+function getRowIndex(target){
+    var tr = $(target).closest('tr.datagrid-row');
+    return parseInt(tr.attr('datagrid-row-index'));
+}
 
 function removeOrder(){
     var deletes = $('#orderTable').datagrid("getSelections");//获取删除状态的行
@@ -53,8 +71,10 @@ function removeOrder(){
                 contentType:"application/json",
                 type:"delete",
                 success:function (result) {
+                    alert(2);
                     if(result.success){
-                        $("div.wu-main").load("/order/listPage");
+                        alert(3);
+                        window.location.href = "/order/listPage";
                     }
                 }
             });

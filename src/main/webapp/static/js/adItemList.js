@@ -8,7 +8,7 @@ $(function(){
         rownumbers: true,
         singleSelect:false,
         selected:false,
-        pageList: [10,20,50,300,1000],
+        pageList: [15,30,50,300,1000],
         idField:'id',
         checkOnSelect: false,
         loadMsg: "数据加载中，请稍候……",
@@ -61,7 +61,7 @@ $(function(){
 });
 
 function append() {
-        $("div.wu-main").load("/adItem/add");
+    window.location.href = "/adItem/add";
 }
 
 function remove(){
@@ -85,7 +85,7 @@ function remove(){
                 type:"delete",
                 success:function (result) {
                     if(result.success){
-                        $("div.wu-main").load("/adItem/adItemList");
+                        window.location.href = "/adItem/adItemList";
                     }
                 }
             });
@@ -119,9 +119,8 @@ function createOrder(){
             success:function (result) {
                 $("#orderName").val('');
                 if(result.success){
-                    window.location.href = "/";
                     //进入order列表页面
-                    $("div.wu-main").load("/order/listPage");
+                    window.location.href = "/order/listPage";
                 }
             }
         });

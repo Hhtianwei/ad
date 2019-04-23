@@ -38,15 +38,12 @@ public class AdItemController {
     @RequestMapping(value = "/list",method = {RequestMethod.GET})
     public void items(HttpServletResponse response,  @RequestParam(value = "page", required = false) Integer page,
                       @RequestParam(value = "rows", required = false) Integer rows){
-        System.out.println("load.........item..........");
-        Pageable pageable = new PageRequest(page-1, rows, Sort.Direction.ASC, "id");
+        Pageable pageable = new PageRequest(page-1, rows, Sort.Direction.DESC, "id");
         System.out.println("load data items.....");
         Page<AdItemDTO> all = adItemService.findAll(pageable);
-
         Datagrid datagrid = new Datagrid();
         datagrid.setRows(all.getContent());
         datagrid.setTotal(all.getTotalElements());
-
         GsonUtil.writeJson(GJsonUtil.toJson(datagrid), response);
     }
 

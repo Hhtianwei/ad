@@ -19,12 +19,12 @@
 
 </head>
 <body>
-<script type="text/javascript">
-    var projectPath = "<%=basePath%>";
-</script>
-<script type="text/javascript" src="/static/js/orderList.js?v=1.0"></script>
-
-    <table id="orderTable"></table>
-
+    <div>
+        <ul>
+            <li><a href="/adItem/adItemList">广告项列表</a></li>
+            <li><a href="/order/listPage">订单列表</a></li>
+        </ul>
+    </div>
 </body>
+
 </html>

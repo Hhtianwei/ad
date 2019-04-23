@@ -18,7 +18,7 @@ $(function(){
             type:"post",
             success:function (result) {
                 if(result.success){
-                    $("div.wu-main").load("/adItem/adItemList");
+                    window.location.href = "/adItem/adItemList";
                 }
             }
         });

@@ -1,6 +1,7 @@
 package com.adv.price.service;
 
 import com.adv.price.domain.AdItem;
+import com.adv.price.domain.AdOrder;
 import com.adv.price.dto.AdItemDTO;
 import com.adv.price.repository.AdItemRepository;
 import com.adv.price.service.mapper.AdItemMapper;
@@ -29,6 +30,7 @@ public class AdItemService {
     }
 
     public AdItemDTO save(AdItemDTO adItemDTO){
+        adItemDTO.setCreateTime(new Date());
         AdItem adItem = adItemMapper.toEntity(adItemDTO);
         AdItem adItemResult = adItemRepository.save(adItem);
         return adItemMapper.toDto(adItemResult);
@@ -39,6 +41,25 @@ public class AdItemService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         map.forEach(dto -> {
+            converDateAndPrice(sdf, dto);
+        });
+        return map;
+    }
+
+    private void converDateAndPrice(SimpleDateFormat sdf, AdItemDTO dto) {
+        Date createTime = dto.getCreateTime();
+        String format = sdf.format(createTime);
+        dto.setCreateTimeString(format);
+        DecimalFormat df = new DecimalFormat("#0.00");
+        String str = df.format(dto.getTotalPrice());
+        String unitPrice = df.format(dto.getUnitPrice());
+        dto.setUnitPriceString(unitPrice);
+        dto.setTotalPriceString(str);
+    }
+
+    public Optional<AdItemDTO> findById(Long id){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return adItemRepository.findById(id).map(adItemMapper::toDto).map(dto -> {
             Date createTime = dto.getCreateTime();
             String format = sdf.format(createTime);
             dto.setCreateTimeString(format);
@@ -47,12 +68,21 @@ public class AdItemService {
             String unitPrice = df.format(dto.getUnitPrice());
             dto.setUnitPriceString(unitPrice);
             dto.setTotalPriceString(str);
+            return dto;
         });
-        return map;
     }
 
-    public Optional<AdItemDTO> findById(Long id){
-        return adItemRepository.findById(id).map(adItemMapper::toDto);
+    public Set<AdItemDTO> findByOrderId(Long orderId){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        AdOrder adOrder = new AdOrder();
+        adOrder.setId(orderId);
+        List<AdItem> byOrOrderById = adItemRepository.findByOrderEquals(adOrder);
+        Set<AdItemDTO> collect = byOrOrderById.stream().map(adItemMapper::toDto).collect(Collectors.toSet());
+        collect.forEach((AdItemDTO dto) -> {
+            converDateAndPrice(sdf, dto);
+        });
+        return collect;
     }
 
     public List<AdItemDTO> findByIds(Long[] ids){

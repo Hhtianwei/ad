@@ -13,7 +13,7 @@ public class HomeController {
 
         System.out.println("home page...");
 
-        return "home";
+        return "index";
     }
 
     @RequestMapping("/welcome")

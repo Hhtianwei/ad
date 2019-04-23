@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -72,6 +73,11 @@ public class AdOrderService {
     public List<AdOrderDTO> findAll(){
         List<AdOrder> all = adOrderRepository.findAll();
         return adOrderMapper.toDto(all);
+    } 
+    
+    public Optional<AdOrderDTO> findById(Long id){
+        Optional<AdOrder> orderOptional = adOrderRepository.findById(id);
+        return orderOptional.map(adOrderMapper::toDto);
     }
 
     public void removes(Long[] ids) {
@@ -80,4 +86,5 @@ public class AdOrderService {
         allById.stream().forEach(order -> order.setEnabled(false));
         adOrderRepository.saveAll(allById);
     }
+
 }

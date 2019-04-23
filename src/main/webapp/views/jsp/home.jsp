@@ -17,13 +17,6 @@
     <script type="text/javascript" src="/static/easyui/1.3.4/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/static/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 
-    <script type="text/javascript">
-        var projectPath = "<%=basePath%>";
-    </script>
-    <script type="text/javascript" src="/static/js/addAdItem.js"></script>
-    <script type="text/javascript" src="/static/js/adItemList.js"></script>
-    <script type="text/javascript" src="/static/js/orderList.js"></script>
-
 </head>
 <body class="easyui-layout">
 <!-- begin of header -->
@@ -84,10 +77,10 @@
     $(function(){
 
         $("#items").on("click",function(){
-            $("div.wu-main").load("/adItem/adItemList");
+            window.location.href = "/adItem/adItemList";
         });
         $("#orders").on("click",function(){
-            $("div.wu-main").load("/order/listPage");
+            window.location.href = "/order/listPage";
         });
 
         $('.wu-side-tree a').bind("click",function(){
